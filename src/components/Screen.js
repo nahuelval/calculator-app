@@ -5,7 +5,6 @@ import './style.css';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Screen = () => {
-    const ONE = 'ONE';
 
     const dispatch = useDispatch();
 
@@ -35,9 +34,9 @@ const Screen = () => {
                 <h6 className="number2">{result}</h6>
             </div>
             <button onClick={() => dispatch(increment())} className="btn btn-primary"
-                style={{ 'margin-top': '5px' }}>INCREMENTAR</button>
+                style={{ 'marginTop': '5px' }}>INCREMENTAR</button>
             <button onClick={() => dispatch(decrement())} className="btn btn-danger"
-                style={{ 'margin-top': '5px' }}>RESTAR</button>
+                style={{ 'marginTop': '5px' }}>RESTAR</button>
         </div>
     )
 }

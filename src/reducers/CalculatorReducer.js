@@ -3,61 +3,78 @@ const initState = {
     lastValue: 0,
     sum: '',
     list: [],
-    idSelected: ''
+    idSelected: '',
+    dark_mode: false
 }
 
 // Actions to manipulate the calculator Pad and List
 const calculatorReducer = (state = initState, action) => {
+    /* eslint-disable no-eval */
+
+    function valConcat(num){
+        return state.value.toString().concat(num)
+    }
+
     switch(action.type) {
         case 'one':
             return {
                 ...state,
-                value: (state.value === 0) ? 1 : state.value.toString().concat(1)
+                value: (state.value === 0) ? 1 : valConcat(1),
+                lastValue: (state.lastValue === 0) ? 1 : eval(valConcat(1))
             }
         case 'two':
             return {
                 ...state,
-                value: (state.value === 0) ? 2 : state.value.toString().concat(2)
+                value: (state.value === 0) ? 2 : valConcat(2),
+                lastValue: (state.lastValue === 0) ? 2 : eval(valConcat(2))
             }
         case 'three':
             return {
                 ...state,
-                value: (state.value === 0) ? 3 : state.value.toString().concat(3)
+                value: (state.value === 0) ? 3 : valConcat(3),
+                lastValue: (state.lastValue === 0) ? 3 : eval(valConcat(3))
             }
         case 'four':
             return {
                 ...state,
-                value: (state.value === 0) ? 4 : state.value.toString().concat(4)
+                value: (state.value === 0) ? 4 : valConcat(4),
+                lastValue: (state.lastValue === 0) ? 4 : eval(valConcat(4))
             }
         case 'five':
             return {
                 ...state,
-                value: (state.value === 0) ? 5 : state.value.toString().concat(5)
+                value: (state.value === 0) ? 5 : valConcat(5),
+                lastValue: (state.lastValue === 0) ? 5 : eval(valConcat(5))
             }
         case 'six':
             return {
                 ...state,
-                value: (state.value === 0) ? 6 : state.value.toString().concat(6)
+                value: (state.value === 0) ? 6 : valConcat(6),
+                lastValue: (state.lastValue === 0) ? 6 : eval(valConcat(6))
             }
         case 'seven':
             return {
                 ...state,
-                value: (state.value === 0) ? 7 : state.value.toString().concat(7)
+                value: (state.value === 0) ? 7 : valConcat(7),
+                lastValue: (state.lastValue === 0) ? 7 : eval(valConcat(7))
             }
         case 'eight':
             return {
                 ...state,
-                value: (state.value === 0) ? 8 : state.value.toString().concat(8)
+                value: (state.value === 0) ? 8 : valConcat(8),
+                lastValue: (state.lastValue === 0) ? 8 : eval(valConcat(8))
             }
         case 'nine':
             return {
                 ...state,
-                value: (state.value === 0) ? 9 : state.value.toString().concat(9)
+                value: (state.value === 0) ? 9 : valConcat(9),
+                lastValue: (state.lastValue === 0) ? 9 : eval(valConcat(9))
             }
         case 'zero':
             return {
                 ...state,
-                value: (state.value === 0) ? state.value : state.value.toString().concat(0)
+                value: (state.value === 0) ? state.value : valConcat(0),
+                lastValue: (state.lastValue === 0) ? 0 : eval(valConcat(0))
             }
         case 'increment':
             return {
@@ -107,21 +124,19 @@ const calculatorReducer = (state = initState, action) => {
         case 'SUM':
             return {
                 ...state,
-                lastValue: parseFloat(state.value) + parseFloat(state.lastValue),
-                value: 0,
+                value: (/[+*/-]/.test(state.value.toString().charAt(state.value.toString().length - 1)) ? state.value : state.value.toString().concat('+')),
                 operation: 'SUM'
             }
         case 'REST':
             return {
                 ...state,
-                lastValue: parseFloat(state.lastValue) - parseFloat(state.value),
-                value: 0,
-                operation: 'SUM'
+                value: (/[+*/-]/.test(state.value.toString().charAt(state.value.toString().length - 1)) ? state.value : state.value.toString().concat('-')),
+                operation: 'REST'
             }
         case 'EQUAL':
             return {
                 ...state,
-                lastValue: parseFloat(state.value),
+                lastValue: 0,
                 value: 0
             }
         case 'DOT':
@@ -132,15 +147,13 @@ const calculatorReducer = (state = initState, action) => {
         case 'MULT':
             return {
                 ...state,
-                lastValue: (parseFloat(state.lastValue) === 0) ? parseFloat(state.value) :( parseFloat(state.value) === 0) ? state.lastValue : parseFloat(state.value) * parseFloat(state.lastValue) ,
-                value: 0,
+            value: (/[+*/-]/.test(state.value.toString().charAt(state.value.toString().length - 1)) ? state.value : state.value.toString().concat('*')),
                 operation: 'MULT'
             }
         case 'DIV':
             return {
                 ...state,
-                lastValue: (parseFloat(state.lastValue) === 0) ? parseFloat(state.value) : (parseFloat(state.value) === 0) ? state.lastValue : (parseFloat(state.value) / parseFloat(state.lastValue)).toFixed(2),
-                value: 0,
+                value: (/[+*/-]/.test(state.value.toString().charAt(state.value.toString().length - 1)) ? state.value : state.value.toString().concat('/')),
                 operation: 'DIV'
             }
         case 'DELET':
@@ -155,8 +168,13 @@ const calculatorReducer = (state = initState, action) => {
         case 'REPLACE':
             return {
                 ...state,
-                lastValue: action.index,
+                value: action.index,
                 idSelected: action.id
+            }
+        case 'DARK-MODE':
+            return {
+                ...state,
+                dark_mode: true
             }
         default:
             return {...state}

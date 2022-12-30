@@ -19,7 +19,7 @@ const NavBar = () => {
         <div className="container-fluid">
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <button className="btn btn-default" onClick={() => dispatch(letDarkMode())}></button>
+                    <button style={{backgroundColor: "black",color: "white"}} className="btn btn-default" onClick={() => dispatch(letDarkMode())}>Dark Mode</button>
                 </li>
             </ul>
         </div>
